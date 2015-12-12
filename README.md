@@ -4,9 +4,7 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* This is the registration site for BonzAI Brawl.  Due to IT's inability to provide a Python dev environment, the main
-   bonzai site (bonzai.cs.mtu.edu) written in PHP links to this one. Being able to write the registration site in Python
-   allows a lot more flexibility and rapid development.
+* This is the registration site for the 2015 BonzAI Brawl.
 
 ### How to Install ###
 
