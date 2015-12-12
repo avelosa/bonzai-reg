@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% if not action %}
+{% set action = "Submit" %}
+{% endif %}
+
+{% from "macros.html" import render_field %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<div class="content-form">
+  <form method="post" action="{{ action_url }}" enctype="multipart/form-data">
+  	{% for field in form %}
+    {{ render_field(field, class='form-control') }}
+    <br>
+    {% endfor %}
+    <br>
+    {% if title == 'Login' %}
+    <div class="login">
+    	<input type="submit" value="{{ action }}" class="btn btn-default" style="text-align:center;">
+    </div>
+    <div class="login">
+    	<p>or</p>
+    	<a class="btn btn-default" href="{{ url_for('register') }}">Register</a>
+    </div>
+    {% else %}
+    <input type="submit" value="{{ action }}" class="btn btn-default">
+    <br>
+    <a class="btn btn-default" href="{{ url_for('index') }}">Cancel</a>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}

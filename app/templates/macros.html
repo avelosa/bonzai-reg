@@ -1,0 +1,38 @@
+{% macro render_field(field) %}
+{% if field.type == 'CSRFTokenField' %}
+<!--CSRF Protection & Validation : block third party forgery requests to server-->
+{{ field(**kwargs)|safe }}
+{% else %}
+<div class="control-group {% if field.errors %} has-error{% endif %}">  
+  <div class="controls">
+    {% set class_ = kwargs.pop('class_', '') %}
+    {% if field.flags.required %}
+    {% set class_ = class_ + ' required' %}
+    {% endif %}
+    {% if field.type == 'BooleanField' %}
+    <div class="checkbox">
+      <label>
+        {{ field}}
+        {{ field.label.text | safe }}
+      </label>
+    </div>
+    {% else %}
+    {{ field.label}}
+    {% if field.type in ('FileField') %}
+    <span class="help-block">Select Image File (PNG or JPG files ONLY)</span>
+    {% endif %}
+    {{ field(class_=class_, **kwargs)|safe }}
+    {% if field.errors %}
+    <span class="error help-inline">
+      <ul class="list-unstyled">
+        {% for error in field.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </span>
+    {% endif %}
+    {%endif%}
+  </div>
+</div>
+{% endif %}
+{% endmacro %}

@@ -1,0 +1,5 @@
+This email is to confirm your registration for BonzAI Brawl.
+
+Please follow this link to confirm your email: {{ url_for('confirm_email', uuid=user.confirmation, next=next, _external=True) }}
+
+If you did not sign up, please contact: bonzai-support-l (at) mtu (dot) edu

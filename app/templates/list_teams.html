@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Team List{% endblock %}
+
+{% block body %}
+
+<a href="{{url_for('list_users')}}" class="btn btn-default pull-right">user list</a>
+<h3>Team List</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th style="width: 100px;">Logo</th>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Members</th>
+      <th>Paid</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for team in teams %}
+    <tr {% if not team.is_paid %}class="danger"{% endif %}>
+      <td class="team-icon">
+        <img src="{{ team.icon_url }}" class="img-thumbnail img-responsive">
+      </td>
+      <td>{{ team.name }}</td>
+      <td>{{ team.location }} ({% if team.is_remote %}Remote{% else %}Not Remote{% endif %})</td>
+      <td>
+        <ul>
+          {% for user in team.members %}
+          <li><a href="{{ url_for('show_user', user_id=user.id) }}">{{ user.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </td>
+      <td>{% if team.is_paid %}Yes{% else %}No{% endif %}</td>
+      <td>
+        <a href="{{ url_for('edit_team', team_id=team.id) }}">Edit</a> |
+        <a href="{{ url_for('toggle_team_paid', team_id=team.id) }}">Toggle Paid</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

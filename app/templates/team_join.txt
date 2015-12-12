@@ -1,0 +1,3 @@
+This email is to notify you that "{{ user.name }}" has joined your team for Bonzai Brawl.
+
+Please login at http://bonzaibrawl.com for further details.

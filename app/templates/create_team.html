@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% if not action %}
+{% set action = "Submit" %}
+{% endif %}
+
+{% from "macros.html" import render_field %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<div class="content-form">
+	<h3 class="page-header">{{title}}</h3>
+	<form method="post" action="{{ action_url }}" enctype="multipart/form-data">
+	    <div class="row"><div class="col-xs-12">{{ render_field(form.name, class='form-control') }}</div></div>
+	    <br>
+	    <div class="row"><div class="col-xs-12">{{ render_field(form.icon, class='form-control') }}</div></div>
+	    <br>
+	    <div class="row form-group">
+	    	<div class="col-xs-12" id="location">{{ render_field(form.location, class='form-control', onchange='validate_location()') }}</div>
+	    	<div class="col-xs-12 helper-text" style="display: none;" id="help-text">*Remote contestants must mail their registration fees to Michigan Tech before the end of registration. Once you create your team more information will be available on your profile.</div>
+		</div>
+	    <div class="row"><div class="col-xs-12">{{ render_field(form.csrf_token) }}<input type="submit" value="{{ action }}" class="btn btn-default"></div>
+	  	</div>
+	</form>
+</div>
+{% endblock %}

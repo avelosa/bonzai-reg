@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Team {{ team.name }}{% endblock %}
+
+{% block body %}
+<div class="jumbotron join-team">
+  <h1>Team {{ team.name }}</h1>
+  <p>Help current team {% if team.members|length == 1 %}member{% else %}members{% endif %} {% for user in team.members %}<b>{{ user.name }}</b>&nbsp;{%if loop.index == 1 and loop.length == 2%} and{%endif%} {% endfor %} on designing a stratedy and developing an AI and compete in the brawl.</p>
+
+  <a href="{{ url_for('join_team', team_lookup=team.secret, _external=True) }}" class="btn btn-primary btn-large">Join Team</a>
+  <a href="{{ url_for('index') }}" class="btn btn-default btn-large">Cancel</a>
+</div>
+{% endblock %}

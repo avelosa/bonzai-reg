@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+
+{% block body %}
+<div class="admin-nav">
+  <p class="help-text">Go back to teams:<a href="{{url_for('list_teams')}}" class="btn btn-default">Team List</a></p>
+  <p class="help-text">Download a CSV of users:<a href="{{url_for('csv_users')}}" class="btn btn-default">Download</a></p>
+</div>
+<h3>Current User List</h3>
+<table class="table">
+  <thead> 
+	<tr>
+      <th></th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>ShirtSize</th>
+      <th>Location</th>
+      <th>Paid</th>
+      <th>Food Preferences</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td><a href="{{url_for('show_user', user_id=user.id)}}">{{ user.name }}</a></td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.shirt_size }}</td>
+      <td>{{ user.team.location }} ({% if user.team.is_remote %}Remote{% else %}Not Remote{% endif %})</td>
+      <td>{% if user.team.is_paid %}Yes{% else %}No{% endif %}</td>
+      <td>{{ user.food_preferences }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}User {{ user.name }}{% endblock %}
+{% block body %}
+<div class="content">
+  <!-- USER SECTION -->
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h2 class="page-header">Hi {{ user.name }}</h2>
+      <a class="btn btn-default pull-right" href="{{ url_for('edit_user', user_id=user.id)}}">Edit</a>
+      <dl class="dl-horizontal">
+        <dt>Food Preferences:</dt>
+        <dd>{{ user.food_preferences }}</dd>
+        {% if user.food_other %}
+        <dt>Food Other:</dt>
+        <dd>{{ user.food_other }}</dd>
+        {% endif %}
+        <dt>Shirt:</dt>
+        <dd>{{ user.shirt_size }}</dd>
+      </dl>
+      {% if current_user.is_admin %}{% endif %}
+    </div>
+  </div>
+  <!-- USER TEAM SECTION -->
+  {% if not user.team %}
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h3>Please <a href="{{url_for('create_team')}}">create</a> a team.</h3>
+        <br>
+        <h4>Want to join an existing team?</h4>
+        <p>If you want to join an exsiting team you need to be invited by a teammate. Ask them to send a url invite.</p>
+        <h4>Competing alone?</h4>
+        <p>When you create a team you will be able to pick your "team" name and icon. This is how you represent yourself/team during the final competition.</p>
+      </div>
+  </div>
+  {% else %}
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h2 class="page-header">Your Team: {{ user.team.name }}</h2>
+      <div class="pull-right">
+        <a class="btn btn-default" href="{{ url_for('edit_team', team_id=user.team.id) }}">&nbsp;Edit Team&nbsp;&nbsp;&nbsp;</a> <br><br>
+        <a class="btn btn-default" href="{{ url_for('leave_team', team_lookup=user.team.secret, _external=True) }}">Leave Team</a>
+      </div>
+      <div class="media-left team-icon">
+        <img src="{{ user.team.icon_url }}" class="img-responsive media-object">
+      </div>
+      <div class="media-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Member</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for member in user.team.members %}
+            <tr>
+              <th scope="row">{{loop.index}}</th>
+              <td>{{ member.name }}</td>
+              <td>{{ member.email }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% if not user.team.is_full %}
+  <br>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div id="url" class="pull-left">
+        <p>Your team is not full.<br>
+        Teams of up to three people are allowed. &nbsp;You are allowed compete on your own if you choose.<br>
+        Have your friends register, &nbsp;then have them join the team at this url:</p>
+        <pre>{{ url_for('confirm_join_team', team_lookup=user.team.secret, _external=True) }}</pre>
+      </div>     
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      {% if not user.team.is_paid %}
+      <h3 class="page-header">Participation Fee</h3>
+      <h4>All particpants need to pay a fee of <b>$10</b> to help cover the cost of the event. <br>Please print out, complete and turn in this <a href="../static/img/PaymentForm.pdf">FORM</a>.</h4>
+        {% if user.team.location ==  'MTU' %}
+        <p>Please turn in your money to the CS Office.</p>
+        {% endif %}
+        {% if user.team.location ==  'NMU' %}
+        <p>If you are a NMU student, payment is expected to be brought to the event.</p>
+        {% endif %}
+        {% if user.team.is_remote %}
+          <p>You are competing remotely, payment will be arranged locally still applies</p>
+        {% endif %}
+      <h4>Participation Fee Status: <span class="text-danger">&nbsp;NOT PAID</span></h4>
+      <p class="text-danger">Your whole team needs to pay the registration fee of $10.<br>Please pay by <b>March 30th</b> in order to participate in the brawl!</p>
+      {% else %}
+      <h4>Participation Fee Status: <span class="text-success">PAID</span></h4>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

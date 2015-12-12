@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% if not action %}
+{% set action = "Submit" %}
+{% endif %}
+
+{% from "macros.html" import render_field %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+<div class="content-form">
+	<h3 class="page-header">Edit User Info</h3>
+	<form method="post" action="{{ action_url }}" enctype="multipart/form-data">
+		<div class="form-group-sm row">
+	      <div class="col-lg-10">{{ render_field(form.name, class='form-control') }}</div>
+	    </div>
+	    <br>
+		<div class="form-group-sm row">
+	      <div class="col-lg-10" id="food-preferences">{{ render_field(form.food_preferences, class='form-control', onchange='validate_food_preferences()', rows=3) }}</div>
+	    </div>
+	    <br>
+	    <div class="form-group-sm row">
+	      <div class="col-lg-10" style="display: none;" id="food-other">{{ render_field(form.food_other, class='form-control', rows=3) }}</div>
+	    </div>
+	    <br>
+	    <div class="form-group-sm row">
+	    	<div class="col-lg-12">
+			    {{ render_field(form.csrf_token) }}
+		    	<input type="submit" value="{{ action }}" class="btn btn-default">
+		   	 	<a class="btn btn-default" href="{{ url_for('index') }}">Cancel</a>
+		   	 </div>
+   	 	</div>
+	</form>
+	<p class="helper-text">*Note: Once you have paid you will not be able to change this information.</p>
+</div>
+{% endblock %}

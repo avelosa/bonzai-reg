@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>{% block title %}Welcome{% endblock %} | Bonzai Brawl</title>
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,900" rel='stylesheet' type='text/css'>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet"/>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{url_for('index')}}">B<i class="fa fa-circle"><img alt="O" src="{{ url_for('static', filename='img/favicon.ico') }}"></i>NZAI BRAWL</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            
+            {% if current_user.is_authenticated() %}
+            {% if current_user.is_admin %}
+            <li><a href="{{ url_for('list_teams') }}" class="navbar-link">Admin</a></li>
+            {% endif %}
+            <li><a href="{{url_for('index')}}">Profile</a></li>
+            <li><a href="/logout" class="navbar-link act">Logout</a></li>
+            {% else %}
+            <li><a href="{{ url_for('login') }}" class="navbar-link">Login</a></li>
+            <!--li><a href="{{ url_for('register') }}" class="navbar-link">Register</a></li-->
+            {% endif %}
+            <!-- <li><a href="https://bonzai.cs.mtu.edu/schedule.php">Schedule</a></li> -->
+            <li><a href="http://bonzai.cs.mtu.edu/faq.php">FAQ</a>
+            </li>
+            <li><a data-toggle="modal" data-target="#myModal">Support</a>
+            </li>
+            <li ><a href="http://bonzai.cs.mtu.edu">Back to Main Site</a></li>
+          </ul>
+        </div>
+      </div>
+    </div> <!-- End of Navbar-->
+
+    <!-- MODAL FOR CONTACT -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Contact Us</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row centered">
+              <p>Need to report a bug? Do you have a suggestion? Need help?</p>
+              <p><b>Leave a support ticket on: <a href="https://bitbucket.org/avelosa/bonzai-registration/issues">Bitbucket</a></b></p>
+              <p>Otherwise, email us at: bonzai-support-l(at) mtu (dot) edu</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- ACTUAL PAGE CONTENT/FORMS -->
+    <div class="main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'message' %}
+            {% set category = 'info' %}
+            {% endif %}
+            <div class="alert alert-{{ category }} fade-in alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <strong>{{ category | title }}</strong> {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        {% block body %}{% endblock %}
+      </div>
+    </div><!-- main -->
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row centered">
+          <div class="col-sm-3 col-sm-offset-1">
+            <a href="http://wics.students.mtu.edu"><img src="{{ url_for('static', filename='img/wics-logo.png') }}" alt="wics"></a>
+          </div>
+          <div class="col-sm-4">
+            <a href="http://bonzai.cs.mtu.edu"><img src="{{ url_for('static', filename='img/bonzai-logo.png') }}" width="152px" height="152px"alt="bonzai"></a>
+          </div>
+          <div class="col-sm-3">
+            <a href="http://huskygames.com"><img src="{{ url_for('static', filename='img/hgd-logo.png') }}" width="152px" height="152px" alt="hgd"></a>
+          </div>
+        </div>
+        <br/>
+        <div class="row centered">
+          <p class="muted credit" style="margin-top: 20px;">
+          &copy;2013
+          <a href="http://www.mtu.edu">Michigan Technological University</a>
+          &#64;MTU, All Rights Reserved
+          </p>
+        </div>
+      </div><!-- container -->
+    </footer><!-- End Footer -->
+    
+    <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="/static/js/bootstrap.min.js"></script>
+      <script src="/static/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+Hello!
+
+You have been invited to join a BonzAI Brawl team!
+
+To join follow this url: {{ url_for('confirm_join_team', team_lookup=team.secret, _external=True) }}
+
+Thank you and good luck!
